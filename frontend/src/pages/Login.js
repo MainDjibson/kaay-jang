@@ -98,5 +98,3 @@ export const Login = () => {
     </div>
   );
 };
-
-import i18n from '../i18n';
