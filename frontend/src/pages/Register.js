@@ -143,7 +143,7 @@ export const Register = () => {
 
             <div className="space-y-2">
               <Label htmlFor="branch">{t('branch')}</Label>
-              <Select value={formData.branch_id} onValueChange={(value) => setFormData({ ...formData, branch_id: value, level_id: '' })}>
+              <Select value={formData.branch_id || undefined} onValueChange={(value) => setFormData({ ...formData, branch_id: value, level_id: '' })}>
                 <SelectTrigger className="border-2 border-gray-200" data-testid="branch-select">
                   <SelectValue placeholder={i18n.language === 'fr' ? 'Sélectionnez' : 'Select'} />
                 </SelectTrigger>
@@ -159,7 +159,7 @@ export const Register = () => {
 
             <div className="space-y-2">
               <Label htmlFor="level">{t('level')}</Label>
-              <Select value={formData.level_id} onValueChange={(value) => setFormData({ ...formData, level_id: value })} disabled={!formData.branch_id}>
+              <Select value={formData.level_id || undefined} onValueChange={(value) => setFormData({ ...formData, level_id: value })} disabled={!formData.branch_id}>
                 <SelectTrigger className="border-2 border-gray-200" data-testid="level-select">
                   <SelectValue placeholder={i18n.language === 'fr' ? 'Sélectionnez' : 'Select'} />
                 </SelectTrigger>
