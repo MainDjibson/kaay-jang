@@ -8,6 +8,7 @@ import { Label } from '../components/ui/label';
 import { Card } from '../components/ui/card';
 import { toast } from 'sonner';
 import { LogIn } from 'lucide-react';
+import i18n from '../i18n';
 
 export const Login = () => {
   const { t } = useTranslation();
