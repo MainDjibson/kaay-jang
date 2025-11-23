@@ -144,7 +144,9 @@ class Assignment(BaseModel):
     branch_id: str
     level_id: str
     teacher_id: str
-    due_date: datetime
+    assignment_type: str = "quiz"  # "quiz" for auto-graded QCM, "submission" for manual grading
+    due_date: Optional[datetime] = None  # Optional for submissions
+    allow_files: bool = True  # Allow file uploads for submissions
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 class Question(BaseModel):
