@@ -160,6 +160,3 @@ export const Home = () => {
     </div>
   );
 };
-
-// Import i18n at the top
-import i18n from '../i18n';
