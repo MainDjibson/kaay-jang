@@ -164,12 +164,26 @@ class StudentAnswer(BaseModel):
     model_config = ConfigDict(extra="ignore")
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     assignment_id: str
-    question_id: str
+    question_id: Optional[str] = None  # Optional for submission-type assignments
     student_id: str
     answer_value: str
     is_correct: Optional[bool] = None
     score: Optional[int] = None
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class Submission(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    assignment_id: str
+    student_id: str
+    student_name: Optional[str] = None
+    content: str  # Text content of the submission
+    file_urls: Optional[List[str]] = []  # Uploaded files
+    submitted_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    grade: Optional[float] = None  # Grade given by teacher
+    teacher_comment: Optional[str] = None  # Teacher's feedback
+    graded_at: Optional[datetime] = None
+    status: str = "submitted"  # submitted, graded
 
 class Follow(BaseModel):
     model_config = ConfigDict(extra="ignore")
