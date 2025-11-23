@@ -633,7 +633,7 @@ async def create_question(question: Question, current_user: User = Depends(get_c
     await db.questions.insert_one(question_doc)
     return question
 
-# Student Answers
+# Student Answers (for quiz-type assignments)
 @api_router.post("/answers", response_model=StudentAnswer)
 async def submit_answer(answer: StudentAnswer, current_user: User = Depends(get_current_user)):
     if current_user.role != "student":
@@ -642,10 +642,11 @@ async def submit_answer(answer: StudentAnswer, current_user: User = Depends(get_
     answer.student_id = current_user.id
     
     # Get question to check correct answer
-    question = await db.questions.find_one({"id": answer.question_id}, {"_id": 0})
-    if question:
-        answer.is_correct = (answer.answer_value.strip().lower() == question["correct_answer"].strip().lower())
-        answer.score = question["points"] if answer.is_correct else 0
+    if answer.question_id:
+        question = await db.questions.find_one({"id": answer.question_id}, {"_id": 0})
+        if question:
+            answer.is_correct = (answer.answer_value.strip().lower() == question["correct_answer"].strip().lower())
+            answer.score = question["points"] if answer.is_correct else 0
     
     answer_doc = answer.model_dump()
     answer_doc["created_at"] = answer_doc["created_at"].isoformat()
@@ -659,6 +660,84 @@ async def get_student_answers(assignment_id: str, student_id: str):
         if isinstance(answer.get("created_at"), str):
             answer["created_at"] = datetime.fromisoformat(answer["created_at"])
     return answers
+
+# Submissions (for submission-type assignments)
+@api_router.post("/submissions", response_model=Submission)
+async def create_submission(submission: Submission, current_user: User = Depends(get_current_user)):
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Students only")
+    
+    submission.student_id = current_user.id
+    submission.student_name = current_user.name
+    
+    submission_doc = submission.model_dump()
+    submission_doc["submitted_at"] = submission_doc["submitted_at"].isoformat()
+    if submission_doc.get("graded_at"):
+        submission_doc["graded_at"] = submission_doc["graded_at"].isoformat()
+    
+    await db.submissions.insert_one(submission_doc)
+    
+    # Notify teacher
+    assignment = await db.assignments.find_one({"id": submission.assignment_id}, {"_id": 0})
+    if assignment:
+        notif = Notification(
+            user_id=assignment["teacher_id"],
+            type="new_submission",
+            message=f"{current_user.name} a soumis un devoir: {assignment['title']}",
+            message_en=f"{current_user.name} submitted an assignment: {assignment['title']}",
+            link=f"/assignments/{submission.assignment_id}"
+        )
+        await db.notifications.insert_one(notif.model_dump())
+    
+    return submission
+
+@api_router.get("/submissions/{assignment_id}", response_model=List[Submission])
+async def get_submissions(assignment_id: str, current_user: User = Depends(get_current_user)):
+    query = {"assignment_id": assignment_id}
+    
+    # Students can only see their own submissions
+    if current_user.role == "student":
+        query["student_id"] = current_user.id
+    
+    submissions = await db.submissions.find(query, {"_id": 0}).to_list(1000)
+    for sub in submissions:
+        if isinstance(sub.get("submitted_at"), str):
+            sub["submitted_at"] = datetime.fromisoformat(sub["submitted_at"])
+        if sub.get("graded_at") and isinstance(sub["graded_at"], str):
+            sub["graded_at"] = datetime.fromisoformat(sub["graded_at"])
+    return submissions
+
+@api_router.put("/submissions/{submission_id}/grade")
+async def grade_submission(
+    submission_id: str,
+    grade_data: dict,
+    current_user: User = Depends(get_current_user)
+):
+    if current_user.role != "teacher":
+        raise HTTPException(status_code=403, detail="Teachers only")
+    
+    update_data = {
+        "grade": grade_data.get("grade"),
+        "teacher_comment": grade_data.get("teacher_comment"),
+        "graded_at": datetime.now(timezone.utc).isoformat(),
+        "status": "graded"
+    }
+    
+    await db.submissions.update_one({"id": submission_id}, {"$set": update_data})
+    
+    # Notify student
+    submission = await db.submissions.find_one({"id": submission_id}, {"_id": 0})
+    if submission:
+        notif = Notification(
+            user_id=submission["student_id"],
+            type="submission_graded",
+            message=f"Votre devoir a été noté: {grade_data.get('grade')}/20",
+            message_en=f"Your assignment has been graded: {grade_data.get('grade')}/20",
+            link=f"/assignments/{submission['assignment_id']}"
+        )
+        await db.notifications.insert_one(notif.model_dump())
+    
+    return {"message": "Submission graded successfully"}
 
 # Follows
 @api_router.post("/follows")
