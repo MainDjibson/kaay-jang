@@ -97,12 +97,12 @@ export const Forum = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="text-sm font-medium text-gray-700 mb-2 block">{t('branch')}</label>
-              <Select value={filters.branch_id} onValueChange={(value) => setFilters({ ...filters, branch_id: value, level_id: '' })}>
+              <Select value={filters.branch_id || 'all'} onValueChange={(value) => setFilters({ ...filters, branch_id: value === 'all' ? '' : value, level_id: '' })}>
                 <SelectTrigger data-testid="filter-branch">
                   <SelectValue placeholder={i18n.language === 'fr' ? 'Toutes les branches' : 'All branches'} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{i18n.language === 'fr' ? 'Toutes' : 'All'}</SelectItem>
+                  <SelectItem value="all">{i18n.language === 'fr' ? 'Toutes' : 'All'}</SelectItem>
                   {branches.map((branch) => (
                     <SelectItem key={branch.id} value={branch.id}>
                       {i18n.language === 'fr' ? branch.name : branch.name_en}
@@ -114,12 +114,12 @@ export const Forum = () => {
 
             <div>
               <label className="text-sm font-medium text-gray-700 mb-2 block">{t('level')}</label>
-              <Select value={filters.level_id} onValueChange={(value) => setFilters({ ...filters, level_id: value })} disabled={!filters.branch_id}>
+              <Select value={filters.level_id || 'all'} onValueChange={(value) => setFilters({ ...filters, level_id: value === 'all' ? '' : value })} disabled={!filters.branch_id}>
                 <SelectTrigger data-testid="filter-level">
                   <SelectValue placeholder={i18n.language === 'fr' ? 'Tous les niveaux' : 'All levels'} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{i18n.language === 'fr' ? 'Tous' : 'All'}</SelectItem>
+                  <SelectItem value="all">{i18n.language === 'fr' ? 'Tous' : 'All'}</SelectItem>
                   {levels.map((level) => (
                     <SelectItem key={level.id} value={level.id}>
                       {i18n.language === 'fr' ? level.name : level.name_en}
@@ -131,12 +131,12 @@ export const Forum = () => {
 
             <div>
               <label className="text-sm font-medium text-gray-700 mb-2 block">{t('subjects')}</label>
-              <Select value={filters.subject_id} onValueChange={(value) => setFilters({ ...filters, subject_id: value })}>
+              <Select value={filters.subject_id || 'all'} onValueChange={(value) => setFilters({ ...filters, subject_id: value === 'all' ? '' : value })}>
                 <SelectTrigger data-testid="filter-subject">
                   <SelectValue placeholder={i18n.language === 'fr' ? 'Toutes les matières' : 'All subjects'} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="">{i18n.language === 'fr' ? 'Toutes' : 'All'}</SelectItem>
+                  <SelectItem value="all">{i18n.language === 'fr' ? 'Toutes' : 'All'}</SelectItem>
                   {subjects.map((subject) => (
                     <SelectItem key={subject.id} value={subject.id}>
                       {i18n.language === 'fr' ? subject.name : subject.name_en}
