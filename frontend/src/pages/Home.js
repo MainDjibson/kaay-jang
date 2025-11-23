@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { BookOpen, Users, GraduationCap, MessageSquare, TrendingUp, Award } from 'lucide-react';
+import i18n from '../i18n';
 
 export const Home = () => {
   const { t } = useTranslation();
