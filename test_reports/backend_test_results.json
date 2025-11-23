@@ -1,0 +1,78 @@
+{
+  "timestamp": "2025-11-23T14:43:03.107503",
+  "total_tests": 14,
+  "passed_tests": 14,
+  "success_rate": 100.0,
+  "detailed_results": [
+    {
+      "test": "Admin Login",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Register Teacher",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Register Student",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Get Branches",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Get Subjects",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Get Ad Banners",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Admin Stats",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Get Pending Teachers",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Validate Teacher",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Get Topics",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Get Assignments",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Get Notifications",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Follow User",
+      "status": "PASS",
+      "details": "Status: 200"
+    },
+    {
+      "test": "Check Follow Status",
+      "status": "PASS",
+      "details": "Status: 200"
+    }
+  ]
+}
