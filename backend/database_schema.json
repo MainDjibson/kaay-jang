@@ -1,0 +1,139 @@
+{
+  "assignments": {
+    "count": 3,
+    "fields": {
+      "id": "str",
+      "title": "str",
+      "description": "str",
+      "subject_id": "str",
+      "branch_id": "str",
+      "level_id": "str",
+      "teacher_id": "str",
+      "assignment_type": "str",
+      "due_date": "str",
+      "allow_files": "bool",
+      "created_at": "str"
+    }
+  },
+  "questions": {
+    "count": 2,
+    "fields": {
+      "id": "str",
+      "assignment_id": "str",
+      "question_type": "str",
+      "question_text": "str",
+      "options": "list",
+      "correct_answer": "str",
+      "points": "int",
+      "created_at": "str"
+    }
+  },
+  "notification_settings": {
+    "count": 18,
+    "fields": {
+      "id": "str",
+      "user_id": "str",
+      "email_enabled": "bool",
+      "in_app_enabled": "bool",
+      "new_posts": "bool",
+      "new_assignments": "bool",
+      "new_followers": "bool",
+      "forum_replies": "bool"
+    }
+  },
+  "notifications": {
+    "count": 1,
+    "fields": {
+      "id": "str",
+      "user_id": "str",
+      "type": "str",
+      "message": "str",
+      "message_en": "str",
+      "link": "str",
+      "read": "bool",
+      "created_at": "datetime"
+    }
+  },
+  "follows": {
+    "count": 1,
+    "fields": {
+      "id": "str",
+      "follower_id": "str",
+      "followed_id": "str",
+      "created_at": "str"
+    }
+  },
+  "topics": {
+    "count": 5,
+    "fields": {
+      "id": "str",
+      "branch_id": "str",
+      "level_id": "str",
+      "subject_id": "str",
+      "title": "str",
+      "content": "str",
+      "author_id": "str",
+      "author_name": "str",
+      "author_role": "str",
+      "visibility": "str",
+      "views_count": "int",
+      "replies_count": "int",
+      "created_at": "str"
+    }
+  },
+  "ad_banners": {
+    "count": 3,
+    "fields": {
+      "id": "str",
+      "image_url": "str",
+      "title": "str",
+      "text": "str",
+      "phone": "str",
+      "email": "str",
+      "link": "str",
+      "is_active": "bool",
+      "created_at": "str"
+    }
+  },
+  "branches": {
+    "count": 7,
+    "fields": {
+      "id": "str",
+      "name": "str",
+      "name_en": "str",
+      "is_active": "bool",
+      "created_at": "str"
+    }
+  },
+  "subjects": {
+    "count": 10,
+    "fields": {
+      "id": "str",
+      "name": "str",
+      "name_en": "str",
+      "created_at": "str"
+    }
+  },
+  "levels": {
+    "count": 16,
+    "fields": {
+      "id": "str",
+      "branch_id": "str",
+      "name": "str",
+      "name_en": "str",
+      "created_at": "str"
+    }
+  },
+  "users": {
+    "count": 19,
+    "fields": {
+      "id": "str",
+      "email": "str",
+      "password": "str",
+      "name": "str",
+      "role": "str",
+      "is_validated": "bool",
+      "created_at": "str"
+    }
+  }
+}
